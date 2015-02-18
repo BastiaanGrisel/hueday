@@ -63,8 +63,8 @@ var changeLights = function() {
 			first = false;
 		}
 
-		console.log(state);
-		// api.setLightState(light_id, state);
+		// console.log(state);
+		api.setLightState(light_id, state);
 	});
 }
 
