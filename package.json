@@ -1,0 +1,14 @@
+{
+  "name": "huerizon",
+  "version": "1.0.0",
+  "description": "Colors of the Hue lights correspond to the color temperature of the sun at that time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bastiaan Grisel",
+  "license": "ISC",
+  "dependencies": {
+    "node-hue-api": "^1.0.5"
+  }
+}
