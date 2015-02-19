@@ -1,6 +1,6 @@
 var hue = require("node-hue-api"),
 	HueApi = hue.HueApi,
-	lightState = hue.lightState;
+	lightState = hue.lightState,
 	username = "38ab17cc31b0760fd6543a419088da7",
 	hostname = "hue.chlan",
 	api = new HueApi(hostname, username);
@@ -31,7 +31,7 @@ var sky_rgb_per_hour = {
 	21: [18, 24, 51],
 	22: [17, 20, 37],
 	23: [18, 18, 25],
-	0: [6, 6, 8],
+	0: [18, 18, 25],
 	1: [15, 22, 40],
 	2: [18, 30, 51],
 	3: [26, 42, 70],
@@ -49,28 +49,36 @@ var setLightIds = function(result) {
 
 var startTimer = function() {
 	changeLights();
-	light_timer = setInterval(changeLights, 3600*1000);
+	light_timer = setInterval(changeLights, update_interval*1000);
 }
 
 var changeLights = function() {
+	var rgb = getRGBValueForCurrentTime();
+	var state = lightState.create().on().bri(255).rgb(rgb);
+
+	// Make sure lights don't take an hour to fade from black to the first state
+	if(!first) {
+		state.transitiontime(update_interval*1000);
+		first = false;
+	}
+
 	light_ids.forEach(function(light_id) {
-		var rgb = getRGBValueForCurrentTime();
-		var state = lightState.create().on().bri(255).rgb(rgb);
-
-		// Make sure lights don't take an hour to fade from black to the first state
-		if(!first) {
-			state.transitiontime(update_interval*1000);
-			first = false;
-		}
-
-		// console.log(state);
-		api.setLightState(light_id, state);
+			api.setLightState(light_id, state);
 	});
 }
 
 var getRGBValueForCurrentTime = function() {
-	var n = d.getHours();
+	var n = getHours();
 	return sky_rgb_per_hour[n];
+}
+
+// var counter = 22;
+
+var getHours = function() {
+	// var h =counter++ % 24;
+	// console.log("Hours",h);
+	// return h;
+	return d.getHours();
 }
 
 api.lights()
