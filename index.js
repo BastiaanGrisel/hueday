@@ -25,6 +25,7 @@ var changeLights = function() {
 	var state = lightState.create().transitiontime(10).bri(255).hue(getHue());
 
 	light_ids.forEach(function(light_id) {
+		console.log("set light", light_id, state);
 		api.setLightState(light_id, state);
 	});
 }
