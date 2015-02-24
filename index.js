@@ -17,7 +17,6 @@ var setLightIds = function(result) {
 }
 
 var startTimer = function() {
-	console.log("start timer")
 	changeLights();
 	light_timer = setInterval(changeLights, update_interval);
 }
@@ -26,7 +25,6 @@ var changeLights = function() {
 	var state = lightState.create().transitiontime(10).bri(255).hue(getHue());
 
 	light_ids.forEach(function(light_id) {
-		console.log("set light", light_id, state);
 		api.setLightState(light_id, state);
 	});
 }
