@@ -17,6 +17,7 @@ var setLightIds = function(result) {
 }
 
 var startTimer = function() {
+	console.log("start timer")
 	changeLights();
 	light_timer = setInterval(changeLights, update_interval);
 }
